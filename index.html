@@ -8,7 +8,7 @@
 <style>
 :root{--bg:#0e3b28;--bg2:#082a1c;--red:#b3202a;--red2:#8e1620;--cream:#fff6e5;--gold:#f0c24b;--ink:#2a1a14}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:linear-gradient(rgba(6,28,18,.45),rgba(6,28,18,.8)),url(img/bg.jpg) center/cover no-repeat,radial-gradient(circle at 50% 0,var(--bg),var(--bg2));color:var(--cream);font:800 26px/1.35 Nunito,Arial,sans-serif;overflow-x:hidden}
+html,body{margin:0;height:100%;background:var(--bg2);color:var(--cream);font:800 26px/1.35 Nunito,Arial,sans-serif;overflow-x:hidden}
 #snow{position:fixed;inset:0;pointer-events:none;z-index:4}
 main{position:relative;z-index:2;max-width:1780px;margin:0 auto;padding:84px 40px 30px}
 h1,h2{font-family:"Mountains of Christmas",Georgia,serif;margin:0;color:var(--gold)}
@@ -39,8 +39,6 @@ button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4
 .dec{position:absolute;line-height:1;transform:translate(-50%,-100%)}
 .pole{position:absolute;width:2em;height:16em;border-radius:1em;background:repeating-linear-gradient(45deg,#b3202a 0 1em,#fff 1em 2em)}
 .pole i{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.3em;white-space:nowrap;background:#fff;color:var(--red);font-style:normal;padding:.1em .6em;border-radius:.4em;font-size:1.6em}
-#player{position:absolute;font-size:5em;line-height:1;transform:translate(-50%,-100%);transition:left .12s linear,top .12s linear}
-#player span{display:block}
 .lights{position:fixed;left:0;right:0;top:0;height:22px;z-index:6;pointer-events:none;background:radial-gradient(circle at 12px 11px,#ff5a5a 7px,transparent 8px) 0 0/96px 22px repeat-x,radial-gradient(circle at 12px 11px,#ffd54a 7px,transparent 8px) 32px 0/96px 22px repeat-x,radial-gradient(circle at 12px 11px,#5cff9a 7px,transparent 8px) 64px 0/96px 22px repeat-x;animation:tw 2.4s ease-in-out infinite alternate}
 @keyframes tw{from{opacity:.6}to{opacity:1}}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:20px}
@@ -61,16 +59,13 @@ button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4
 @keyframes tk{to{transform:translateX(-100%)}}
 .orn{position:fixed;top:18px;z-index:6;pointer-events:none;width:2px;transform-origin:top center;animation:sw 3s ease-in-out infinite alternate}
 .orn i{display:block;width:2px;background:#e8e2c8}
-.orn b{display:block;width:28px;height:28px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),currentColor 60%);box-shadow:inset -6px -6px 10px rgba(0,0,0,.35),0 0 16px currentColor}
+.orn b{display:block;width:28px;height:28px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),currentColor 60%);box-shadow:inset -6px -6px 10px rgba(0,0,0,.35)}
 @keyframes sw{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
 #sleigh{position:fixed;top:9%;left:-25%;font-size:64px;white-space:nowrap;z-index:3;pointer-events:none;filter:drop-shadow(0 0 14px #fff9);animation:fly 50s linear infinite 5s}
 @keyframes fly{0%{transform:translate(0,0)}15%{transform:translate(35vw,-34px)}30%{transform:translate(70vw,18px)}60%{transform:translate(150vw,-12px)}100%{transform:translate(150vw,-12px)}}
 .shoot{position:fixed;top:14%;left:8%;width:200px;height:3px;background:linear-gradient(90deg,transparent,#fff);opacity:0;z-index:0;pointer-events:none;animation:sh 13s ease-out infinite}
 @keyframes sh{0%{opacity:0;transform:translate(0,0) rotate(25deg)}2%{opacity:1}9%{opacity:0;transform:translate(700px,330px) rotate(25deg)}100%{opacity:0}}
-#bg path[filter]{animation:au 14s ease-in-out infinite alternate}
-@keyframes au{from{transform:translateX(-90px) scaleY(.9)}to{transform:translateX(90px) scaleY(1.2)}}
 #tint{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 72% 55%,var(--t,transparent),transparent 65%);transition:background 1s}
-.logo{animation:gl 3s ease-in-out infinite alternate}
 @keyframes gl{from{text-shadow:0 3px 10px #000,0 0 10px rgba(240,194,75,.3)}to{text-shadow:0 3px 10px #000,0 0 44px #f0c24b}}
 .prev{position:relative;overflow:hidden}
 .fx{position:absolute;inset:0;pointer-events:none}
@@ -79,18 +74,14 @@ button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4
 .pe,.prev h3,.prev p{position:relative;z-index:1}
 #gnd{position:absolute;left:0;right:0;top:36%;bottom:0;background:linear-gradient(#f4f9fd,#d6e7f4 25%,#b9d3e8)}
 .b{transition:transform .15s}.b.near svg{filter:drop-shadow(0 0 1.2em #ffd24a);transform:scale(1.05);transform-origin:50% 100%}
-.lt{animation:tw2 1.4s ease-in-out infinite alternate}@keyframes tw2{from{opacity:.3}to{opacity:1}}
-.wn{animation:fl 3s ease-in-out infinite alternate}@keyframes fl{from{opacity:.7}to{opacity:1}}
-.sm{transform-box:fill-box;transform-origin:center;animation:smk 4s ease-out infinite}.s2{animation-delay:2s}
+.lt{animation:tw2 1.2s steps(1) infinite}@keyframes tw2{0%{opacity:.35}50%{opacity:1}}
+.sm{transform-box:fill-box;transform-origin:center;animation:smk 4s steps(12) infinite}.s2{animation-delay:2s}
 @keyframes smk{0%{transform:translate(0,0) scale(.6);opacity:.8}100%{transform:translate(14px,-40px) scale(2);opacity:0}}
-.st{animation:stp 1.6s ease-in-out infinite alternate}@keyframes stp{from{filter:drop-shadow(0 0 2px #ffd54a)}to{filter:drop-shadow(0 0 12px #fff3a0)}}
-.wander{animation:wd 7s ease-in-out infinite alternate}@keyframes wd{from{transform:translate(-50%,-100%)}to{transform:translate(calc(-50% + 7em),-100%)}}
-.spin{transform-box:fill-box;transform-origin:center;animation:spn 6s linear infinite}@keyframes spn{to{transform:rotate(360deg)}}
-#pad,#padok{display:none}
-@media (pointer:coarse){#prompt{bottom:178px;font-size:20px}
-#pad{display:grid;position:fixed;left:14px;bottom:14px;grid-template:repeat(3,56px)/repeat(3,56px);gap:6px;z-index:400}
-#pad button,#padok{background:rgba(10,30,20,.7);border:3px solid var(--cream);border-radius:16px;color:var(--cream);font-size:26px;touch-action:none}
-#padok{display:block;position:fixed;right:18px;bottom:40px;width:96px;height:96px;border-radius:50%;z-index:400;background:rgba(179,32,42,.9)}}
+.st{filter:drop-shadow(0 0 6px #fff3a0)}
+.flip,.bob{display:block;transform-origin:50% 100%}
+.bob.walk{animation:bob .36s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-.1em) rotate(3deg)}}
+.spin{transform-box:fill-box;transform-origin:center;animation:spn 6s steps(24) infinite}@keyframes spn{to{transform:rotate(360deg)}}
 .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
 .tile{border:6px solid var(--cream);border-radius:22px;padding:30px 10px;font-size:30px;background:var(--red);box-shadow:inset 0 0 0 6px rgba(255,255,255,.12)}
 .tile:nth-child(even){background:#1f6b44}
@@ -101,7 +92,7 @@ button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4
 .panel{background:var(--cream);color:var(--ink);border-radius:20px;padding:28px 34px;min-height:380px}
 .panel h3{font-family:"Mountains of Christmas",Georgia,serif;font-size:46px;margin:0 0 8px;color:var(--red)}
 .panel p{margin:8px 0;font-weight:600}
-.frame{width:100%;aspect-ratio:16/9;border:6px solid var(--cream);border-radius:18px;background:#000}
+.frame{width:100%;aspect-ratio:16/9;object-fit:contain;border:6px solid var(--cream);border-radius:18px;background:#000}
 .note{background:var(--cream);color:var(--ink);padding:20px;border-radius:14px}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
 .opt{background:var(--red);border:4px solid var(--cream);border-radius:14px;padding:16px}
@@ -111,9 +102,18 @@ button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4
 .card.up{background:var(--cream)}
 .sq{height:150px;font-size:80px;background:#0b2f20;border:4px solid var(--cream);border-radius:14px}
 .big{font-size:34px}
+#aur{position:fixed;left:-10%;top:5%;width:120%;height:35%;z-index:0;pointer-events:none;will-change:transform;background:radial-gradient(ellipse at 35% 50%,rgba(60,255,154,.4),transparent 60%),radial-gradient(ellipse at 65% 50%,rgba(154,124,255,.35),transparent 60%);animation:aur 14s ease-in-out infinite alternate}
+@keyframes aur{from{transform:translateX(-5%) scaleY(.9)}to{transform:translateX(5%) scaleY(1.2)}}
+#bg{will-change:transform}
+#music .row{grid-template-columns:minmax(300px,420px) 1fr;align-items:start}
+#music .list{max-height:calc(100vh - 200px);overflow-y:auto;padding:6px 10px 6px 6px}
+#mplayer{position:sticky;top:90px}
+.np{margin:12px 0 0;font-size:28px;text-shadow:0 2px 8px #000}
+@media (max-width:900px){#music .row{grid-template-columns:1fr}#mplayer{order:-1;top:84px;z-index:5}#music .list{max-height:42vh}}
 </style>
 </head>
 <body>
+<audio id="bgm" src="gchbg.mp3" loop preload="auto"></audio>
 <canvas id="snow"></canvas>
 <div class="lights"></div>
 <div id="sleigh">🦌🦌🦌🛷</div><div class="shoot"></div><div class="shoot" style="top:6%;left:48%;animation-delay:6s"></div>
@@ -123,21 +123,19 @@ button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4
 <radialGradient id="mn"><stop offset="0" stop-color="#fffbe8"/><stop offset=".35" stop-color="#fffbe8"/><stop offset="1" stop-color="#fffbe8" stop-opacity="0"/></radialGradient>
 <filter id="bl"><feGaussianBlur stdDeviation="28"/></filter></defs>
 <rect width="1920" height="1080" fill="url(#sk)"/><g id="stars"></g>
-<path d="M0 330 Q480 120 960 260 T1920 200 L1920 420 Q1400 330 960 430 T0 470Z" fill="url(#au)" filter="url(#bl)"/>
+
 <circle cx="1620" cy="190" r="150" fill="url(#mn)" opacity=".5"/><circle cx="1620" cy="190" r="62" fill="#fffbe8"/>
 <path d="M0 760 Q300 680 600 740 T1200 730 T1920 720 V1080 H0Z" fill="#8fb4d3"/><g id="t1"></g>
 <path d="M0 850 Q400 770 900 840 T1920 810 V1080 H0Z" fill="#d6e8f5"/><g id="t2"></g>
-<path d="M0 960 Q500 905 1000 965 T1920 935 V1080 H0Z" fill="#c9deef"/></svg><div id="tint"></div>
+<path d="M0 960 Q500 905 1000 965 T1920 935 V1080 H0Z" fill="#c9deef"/></svg><div id="aur"></div><div id="tint"></div>
 <main>
 
 <section class="view on" id="home">
 <div id="scene"><div id="gnd"></div>
     
     <div class="hud"><div class="ttl">🎄 North Pole</div><div class="cdw"></div><div class="clk" id="clk"></div></div>
-    <div id="player"><span>🧝</span></div>
-  </div>
-<div id="prompt">Use the arrow keys to walk around</div>
-<div id="pad"><button data-k="ArrowUp" style="grid-area:1/2">▲</button><button data-k="ArrowLeft" style="grid-area:2/1">◀</button><button data-k="ArrowRight" style="grid-area:2/3">▶</button><button data-k="ArrowDown" style="grid-area:3/2">▼</button></div><button id="padok">OK</button>
+      </div>
+<div id="prompt"></div>
 </section>
 
 <section class="view" id="yule">
@@ -186,10 +184,14 @@ button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4
 </main>
 
 <script>
-/* ===== CONFIG: paste YouTube IDs here (the part after v= or list=) ===== */
+/* ===== CONFIG: songs for the Music page. Put mp3 files next to this file (or in a "music" folder) and add a line for each ===== */
 const CONFIG = {
-  yuleVideoId: "",      // e.g. a fireplace / yule log video ID
-  musicPlaylistId: ""   // a Christmas music playlist ID (starts with PL...)
+  songs: [
+    { title: 'Jingle Bell Rock - Bobby Helms', file: 'jbr.mp3' }
+    { title: 'All I Want for Christmas Is You - Mariah Carey', file: 'jbr.mp3' }
+    { title: 'More Coming Soon!', file: '' }
+    
+  ]
 };
 
 const $ = s => document.querySelector(s);
@@ -201,17 +203,39 @@ let current = 'home';
 function show(id) {
   if (id === 'snowtoggle') { snowOn = !snowOn; return; }
   $$('.view').forEach(v => v.classList.toggle('on', v.id === id));
-  current = id;
-  if (id === 'yule') embed('#yuleBox', CONFIG.yuleVideoId && `https://www.youtube.com/embed/${CONFIG.yuleVideoId}?rel=0&autoplay=0`, 'a Yule Log video ID (yuleVideoId)');
-  if (id === 'music') embed('#musicBox', CONFIG.musicPlaylistId && `https://www.youtube.com/embed/videoseries?list=${CONFIG.musicPlaylistId}&rel=0`, 'a playlist ID (musicPlaylistId)');
+  current = id; syncBgm(); pr.style.display = id === 'home' ? '' : 'none';
+  if (id === 'yule') {
+    $('#yuleBox').innerHTML = '<video class="frame" src="yulelog.mp4" autoplay loop playsinline controls></video><p class="yerr" style="display:none">Could not load yulelog.mp4. Put it in the same folder as index.html.</p>';
+    const v = $('#yuleBox video');
+    v.onerror = () => { $('#yuleBox .yerr').style.display = ''; };
+    v.play().catch(() => {});
+  }
+  if (id === 'music') buildMusic();
   if (id === 'quiz') startQuiz();
   if (id === 'facts') nextFact();
   if (id !== 'yule' && id !== 'music') { $('#yuleBox').innerHTML = ''; $('#musicBox').innerHTML = ''; }
   if (id !== 'games') closeStage(true);
   window.scrollTo(0, 0);
-  if (id === 'home') { document.activeElement && document.activeElement.blur(); sizeScene(); updNear(); return; }
+  if (id === 'home') { sizeScene(); focusHome(); return; }
   const pick = document.querySelector('.view.on .mi, .view.on .item, .view.on .tile, .view.on button');
   pick && pick.focus();
+}
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function buildMusic() {
+  const S = CONFIG.songs;
+  $('#musicBox').innerHTML = `<div class="row"><div class="list">${S.map((v, i) => `<button class="item" data-m="${i}">🎵 ${esc(v.title)}</button>`).join('')}</div><div id="mplayer"><div class="note">Pick a song on the left and press OK to play.</div></div></div>`;
+  let cur = 0;
+  const play = i => {
+    cur = (i + S.length) % S.length; const v = S[cur];
+    $('#mplayer').innerHTML = `<div class="note"><p class="np" style="color:var(--ink);text-shadow:none;margin:0 0 10px">🎵 ${esc(v.title)}</p><audio id="mp" controls autoplay src="${esc(v.url || v.file)}" style="width:100%"></audio><p class="merr" style="display:none">Can’t find that file. Put it next to this page (or in the folder named in CONFIG).</p><p><button class="opt" id="mprev">⏮ Previous</button> <button class="opt" id="mnext">Next ⏭</button></p></div>`;
+    const a = $('#mp');
+    a.onended = () => play(cur + 1);
+    a.onerror = () => { $('#mplayer .merr').style.display = ''; };
+    a.play().catch(() => {});
+    $('#mprev').onclick = () => play(cur - 1);
+    $('#mnext').onclick = () => play(cur + 1);
+  };
+  $$('#musicBox .item[data-m]').forEach(b => b.onclick = () => play(+b.dataset.m));
 }
 function embed(sel, url, what) {
   $(sel).innerHTML = url
@@ -230,10 +254,6 @@ document.addEventListener('click', e => {
   else if (b.id === 'nextFact') nextFact();
 });
 document.addEventListener('keydown', e => {
-  if (current === 'home') {
-    if (e.key.startsWith('Arrow')) { e.preventDefault(); move(e.key); return; }
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nearB && show(nearB.dataset.go); return; }
-  }
   if (e.key === 'Escape' || e.key === 'Backspace' || e.keyCode === 10009 || e.keyCode === 461) { e.preventDefault(); back(); return; }
   if (!e.key.startsWith('Arrow')) return;
   if (document.activeElement && document.activeElement.tagName === 'IFRAME') return;
@@ -269,17 +289,27 @@ tick(); setInterval(tick, 1000);
 /* ===== Snow ===== */
 let snowOn = true;
 const cv = $('#snow'), cx = cv.getContext('2d');
-let flakes = [];
-function sizeSnow() { cv.width = innerWidth; cv.height = innerHeight; flakes = Array.from({ length: 110 }, () => ({ x: Math.random() * cv.width, y: Math.random() * cv.height, r: 2 + Math.random() * 4, v: 0.6 + Math.random() * 1.6, p: Math.random() * 6 })); }
+const SS = 0.5; let flakes = [], last = 0;
+function sizeSnow() {
+  cv.width = innerWidth * SS; cv.height = innerHeight * SS;
+  cv.style.width = '100%'; cv.style.height = '100%';
+  flakes = Array.from({ length: 55 }, () => ({ x: Math.random() * cv.width, y: Math.random() * cv.height, r: 1 + Math.random() * 2, v: 0.6 + Math.random() * 1.6, p: Math.random() * 6 }));
+}
 sizeSnow(); addEventListener('resize', sizeSnow);
-(function loop() {
-  cx.clearRect(0, 0, cv.width, cv.height);
-  if (snowOn) {
-    cx.fillStyle = 'rgba(255,255,255,.85)';
-    flakes.forEach(f => { f.y += f.v; f.p += .02; f.x += Math.sin(f.p); if (f.y > cv.height) { f.y = -5; f.x = Math.random() * cv.width; } cx.beginPath(); cx.arc(f.x, f.y, f.r, 0, 7); cx.fill(); });
-  }
+(function loop(t) {
   requestAnimationFrame(loop);
-})();
+  if (t - last < 33 || document.hidden) return;
+  last = t;
+  cx.clearRect(0, 0, cv.width, cv.height);
+  if (!snowOn) return;
+  cx.fillStyle = 'rgba(255,255,255,.85)'; cx.beginPath();
+  for (const f of flakes) {
+    f.y += f.v; f.p += .04; f.x += Math.sin(f.p);
+    if (f.y > cv.height) { f.y = -5; f.x = Math.random() * cv.width; }
+    cx.moveTo(f.x + f.r, f.y); cx.arc(f.x, f.y, f.r, 0, 6.3);
+  }
+  cx.fill();
+})(0);
 
 /* ===== List + detail (movies, recipes) ===== */
 function listDetail(listSel, panelSel, data, render) {
@@ -453,6 +483,36 @@ const FACTS = [
   'In Iceland, 13 Yule Lads visit kids on the 13 nights before Christmas.',
   'The tradition of hanging stockings comes from the story of St. Nicholas.',
   'Poinsettias are named after Joel Poinsett, who brought them to the US from Mexico.'
+    'The first Christmas tree lit by electricity was created in 1882 by Edward Johnson, an associate of Thomas Edison.',
+'Brewers in Sweden create a special holiday soda called Julmust for Christmas that outsells Coca-Cola every December.',
+'The worlds largest gingerbread house spanned nearly 40,000 cubic feet and required 4,000 pounds of butter.',
+'Astronauts aboard Gemini 6 played Jingle Bells on a smuggled harmonica, making it the first song ever performed in space.',
+'During the 1600s, the British Parliament temporarily banned Christmas celebrations to promote solemn religious reflection.',
+'People in Japan traditionally eat KFC fried chicken for Christmas dinner due to a highly successful 1974 marketing campaign.',
+'The classic Christmas poem Twas the Night Before Christmas originally bore the official title A Visit from St. Nicholas.',
+'Ancient Romans celebrated Saturnalia in mid-December, a festival where masters temporarily served meals to their slaves.',
+'The total count of all items mentioned across every verse of The Twelve Days of Christmas reaches 364 gifts.',
+'Franklin Pierce became the first American president to set up an official Christmas tree inside the White House.',
+'Early German families decorated their traditional holiday trees using real apples, nuts, and shaped gingerbread cookies.',
+'The song White Christmas by Bing Crosby remains the best-selling physical single of all time worldwide.',
+'Ukrainians often decorate their trees with artificial spider webs, which are considered symbols of good luck and prosperity.',
+'Sears department stores mistakenly printed a top-secret military hotline number in a 1955 newspaper ad for Santa, creating NORAD Tracks Santa.',
+'The famous holiday ballet The Nutcracker made its world premiere performance in St. Petersburg, Russia, in 1892.',
+'Engineers at a British laboratory created a microscopic Christmas card so tiny that 8,200 of them fit on a postage stamp.',
+'A massive artificial fir tree erected annually in Rio de Janeiro floats entirely on water in the middle of a lagoon.',
+'The word Noel originates from a Latin term meaning birth, which eventually evolved through the Old French language.',
+'Before settling on coal, European folklore suggested that naughty children would receive bundle branches or stale bread.',
+'The iconic holiday film Home Alone holds a spot in the Guinness World Records as the highest-grossing live-action comedy.',
+'In Canada, the post office assigns a dedicated postal code, H0H 0H0, specifically for letters addressed directly to Santa.',
+'The custom of hanging stockings by the fireplace started with an old tale about three poor sisters trying to dry their laundry.',
+'Mistletoe is actually a parasitic plant that survives by stealing water and vital nutrients from its host tree.',
+'The creator of Rudolph the Red-Nosed Reindeer almost named the character Rollo or Reginald before deciding on the final name.',
+'The first printed commercial Christmas card was commissioned in London in 1843 and featured a family sharing wine.',
+'In Iceland, folklore warns of a giant Yule Cat that roams the snowy countryside to eat anyone who hasnt received new clothes.',
+'The first mass-produced artificial Christmas trees were manufactured out of green-dyed animal hair and brush bristles.',
+'The imagery of Santa flying in a sleigh pulled by reindeer was first popularized in an 1821 poem by an anonymous author.',
+'Fraser fir trees take up to ten years of careful growth before they are ready to be harvested for Christmas.',
+'The red and white stripes on a candy cane are a modern addition that did not appear until the turn of the 20th century.'
 ];
 let fi = -1;
 function nextFact() { fi = (fi + 1 + (Math.random() * 3 | 0)) % FACTS.length; $('#factText').textContent = '⭐ ' + FACTS[fi]; }
@@ -463,8 +523,8 @@ function treeSVG() {
   return `<svg viewBox="0 0 140 206" width="100%" style="display:block;overflow:visible"><polygon points="70,22 42,76 98,76" fill="#1c7a46"/><polygon points="70,52 30,122 110,122" fill="#17653b"/><polygon points="70,94 14,184 126,184" fill="#12522f"/><g stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"><path d="M42 76Q56 84 70 76Q84 84 98 76"/><path d="M30 122Q50 132 70 122Q90 132 110 122"/><path d="M14 184Q42 196 70 184Q98 196 126 184"/></g><rect x="62" y="184" width="16" height="16" fill="#5a2d1c"/>${orn}${lts}<polygon class="st" points="70,0 75,14 90,14 78,23 83,38 70,29 57,38 62,23 50,14 65,14" fill="#ffd54a"/><rect x="14" y="186" width="30" height="22" fill="#e63946"/><path d="M29 186V208M14 197H44" stroke="#fff" stroke-width="3"/><rect x="98" y="190" width="26" height="18" fill="#2f7be0"/><path d="M111 190V208M98 199H124" stroke="#fff" stroke-width="3"/></svg>`;
 }
 /* ===== North Pole village (home) ===== */
-const sc = $('#scene'), pl = $('#player'), pr = $('#prompt');
-const P = { x: 50, y: 88 }; let nearB = null; const B = [];
+const sc = $('#scene'), pl = null, pr = $('#prompt');
+const P = { x: 50 }; const B = [];
 const LC = ['#ff4d4d', '#ffd54a', '#5cff9a', '#6fb7ff'];
 const F = 'font-family="Nunito,Arial,sans-serif"';
 const W = i => `<svg viewBox="0 0 200 220" width="100%" style="display:block;overflow:visible">${i}<ellipse cx="100" cy="203" rx="98" ry="9" fill="#fff"/></svg>`;
@@ -516,7 +576,7 @@ ${L(24, 176, 105, 9)}${sg(n, d, 26, 110, 148, 36, 18)}<path d="M70 162L100 148L1
 ].forEach(([go, emo, label, desc, l, t, rc, wc]) => {
   const sn = go === 'snowtoggle', w = sn ? 12 : 17;
   const el = document.createElement('button');
-  el.className = 'b'; el.tabIndex = -1; el.dataset.go = go;
+  el.className = 'b'; el.tabIndex = 0; el.dataset.go = go;
   el.style.cssText = `left:${l}%;top:${t}%;width:${w}em;z-index:${Math.round(t + (sn ? 23 : 33))}`;
   el.innerHTML = sn ? `<span style="font-size:9em;line-height:1;display:block">${emo}</span><span class="sign">${label}</span>` : ART[go](label, desc, emo);
   sc.insertBefore(el, pl);
@@ -529,7 +589,38 @@ const dec = (html, x, y, size, cls, delay) => {
 for (let x = 1; x < 100; x += 4 + Math.random() * 2) { const d = dec('🌲', x, 37, 4 + Math.random() * 3); d.style.zIndex = 1; }
 const tr = dec(treeSVG(), 44, 80, 1); tr.style.cssText = 'left:44%;top:80%;width:14em;transform:translate(0,-100%);z-index:80';
 [['🎅', 50, 38.5, 6.5], ['🦌', 43.5, 38.5, 4.5], ['🦌', 56.5, 38.5, 4.5], ['🎄', 23.5, 46, 5], ['🎄', 78.5, 45, 5], ['🎁', 44, 86, 3.5], ['🎁', 56, 87, 3], ['🦌', 11, 93, 5], ['🦌', 18, 94, 5], ['🛷', 72, 93, 6], ['🔔', 96, 90, 3]].forEach(a => dec(...a));
-[['🧝', 20, 44, 5, 'wander', 0], ['🧝‍♀️', 62, 44, 5, 'wander', 3], ['🧝', 30, 91, 5, 'wander', 1], ['⛄', 84, 44, 5, 'wander', 5]].forEach(a => { const d = dec(a[0], a[1], a[2], a[3], a[4], a[5]); });
+/* Villagers: each one wanders on its own, with pauses, varied speeds and glances */
+function roam(d, size, x0, y0, o) {
+  const flip = d.querySelector('.flip'), bob = d.querySelector('.bob');
+  let cx = x0, cy = y0, left = false;
+  const face = l => { if (!o.flip) return; left = l; flip.style.transform = l ? 'scaleX(-1)' : 'none'; };
+  const rest = () => {
+    const wait = Math.random() < .25 ? 4000 + Math.random() * 5000 : 1200 + Math.random() * 2500;
+    if (Math.random() < .35) setTimeout(() => face(!left), wait * (.3 + Math.random() * .4)); // look around
+    setTimeout(walk, wait);
+  };
+  const walk = () => {
+    const hop = (Math.random() < .3 ? 1 : .4) * (Math.random() * 2 - 1) * o.hop;
+    const tx = Math.max(o.x[0], Math.min(o.x[1], cx + hop));
+    const ty = Math.max(o.y[0], Math.min(o.y[1], cy + (Math.random() * 2 - 1) * o.dy));
+    const dx = tx - cx, dy = (ty - cy) * .5625, dist = Math.hypot(dx, dy);
+    if (dist < 1.2) { rest(); return; }
+    const dur = dist / (o.speed * (.8 + Math.random() * .4));
+    if (Math.abs(dx) > .3) face(dx < 0);
+    if (o.bob) { bob.style.animationDuration = (.3 + Math.random() * .12).toFixed(2) + 's'; bob.classList.add('walk'); }
+    d.style.zIndex = Math.round(ty);
+    d.style.transition = `transform ${dur.toFixed(2)}s linear`;
+    cx = tx; cy = ty;
+    d.style.transform = `translate(calc(-50% + ${(cx - x0) / size}em), calc(-100% + ${(cy - y0) * .5625 / size}em))`;
+    setTimeout(() => { bob.classList.remove('walk'); rest(); }, dur * 1000);
+  };
+  setTimeout(walk, Math.random() * 3000);
+}
+[['🧝', 20, 44, { x: [6, 40], y: [41, 47], hop: 14, dy: 1.5, speed: 3.2, flip: true, bob: true }],
+ ['🧝‍♀️', 62, 44, { x: [60, 92], y: [41, 47], hop: 10, dy: 1.5, speed: 2.4, flip: true, bob: true }],
+ ['🧝', 30, 91, { x: [24, 66], y: [88, 93], hop: 16, dy: 2, speed: 3.8, flip: true, bob: true }],
+ ['⛄', 84, 44, { x: [79, 92], y: [43, 46], hop: 5, dy: 1, speed: 1, flip: false, bob: false }]
+].forEach(([e, x, y, o]) => { const d = dec(`<span class="flip"><span class="bob">${e}</span></span>`, x, y, 5); roam(d, 5, x, y, o); });
 const pole = document.createElement('div'); pole.className = 'pole'; pole.innerHTML = '<i>NORTH POLE</i>';
 pole.style.cssText = 'left:59.2%;top:50%;z-index:78'; sc.insertBefore(pole, pl);
 let SW = innerWidth;
@@ -544,28 +635,15 @@ function cam() {
   if (SW > innerWidth) x = Math.max(innerWidth - SW, Math.min(0, innerWidth / 2 - P.x / 100 * SW));
   sc.style.transition = 'transform .15s'; sc.style.transform = `translateX(${x}px)`;
 }
-function place() { pl.style.left = P.x + '%'; pl.style.top = P.y + '%'; pl.style.zIndex = Math.round(P.y); cam(); updNear(); }
-function move(k) {
-  const dx = k === 'ArrowRight' ? 2.2 : k === 'ArrowLeft' ? -2.2 : 0, dy = k === 'ArrowDown' ? 3.9 : k === 'ArrowUp' ? -3.9 : 0;
-  P.x = Math.max(3, Math.min(97, P.x + dx)); P.y = Math.max(44, Math.min(90, P.y + dy));
-  if (dx) pl.querySelector('span').style.transform = dx < 0 ? 'scaleX(-1)' : 'none';
-  place();
-}
-function updNear() {
-  let best = null, bd = 10;
-  B.forEach(b => { const d = Math.hypot(P.x - b.dx, P.y * 0.5625 - b.dy); if (d < bd) { bd = d; best = b; } });
-  B.forEach(b => b.el.classList.toggle('near', b === best));
-  nearB = best && best.el;
-  pr.textContent = best ? 'Press OK: ' + best.desc : 'Use the arrow keys to walk around';
-}
 addEventListener('resize', sizeScene);
-let padT = null;
-$$('#pad [data-k]').forEach(b => {
-  b.addEventListener('pointerdown', e => { e.preventDefault(); move(b.dataset.k); clearInterval(padT); padT = setInterval(() => move(b.dataset.k), 110); });
-  ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => b.addEventListener(t, () => clearInterval(padT)));
+let lastB = null;
+B.forEach(b => {
+  b.el.addEventListener('focus', () => { b.el.classList.add('near'); lastB = b.el; P.x = b.dx; cam(); pr.textContent = 'Press OK: ' + b.desc; });
+  b.el.addEventListener('blur', () => b.el.classList.remove('near'));
+  b.el.addEventListener('mouseenter', () => b.el.focus({ preventScroll: true }));
 });
-$('#padok').addEventListener('click', () => nearB && show(nearB.dataset.go));
-sizeScene(); place();
+function focusHome() { (lastB || B[0].el).focus({ preventScroll: true }); }
+sizeScene(); focusHome();
 
 /* ===== Painted night scene ===== */
 (function () {
@@ -584,6 +662,20 @@ for (let i = 0; i < 16; i++) {
   o.style.cssText = `left:${3 + i * 6 + Math.random() * 2}%;color:${['#e63946', '#f0c24b', '#3b82c4', '#2fbf71', '#b57cff'][i % 5]};animation-delay:-${(Math.random() * 3).toFixed(1)}s;animation-duration:${(2.4 + Math.random() * 2).toFixed(1)}s`;
   o.innerHTML = `<i style="height:${14 + Math.random() * 26 | 0}px"></i><b></b>`; document.body.appendChild(o);
 }
+/* ===== Background music ===== */
+const bgm = $('#bgm');
+let musicOn = true, bgmStarted = false;
+bgm.volume = 0.5;
+function syncBgm() {
+  const quiet = current === 'music' || current === 'yule'; // let videos be heard
+  if (musicOn && !quiet && bgmStarted) bgm.play().catch(() => {}); else bgm.pause();
+}
+bgm.play().then(() => { bgmStarted = true; syncBgm(); }).catch(() => {});
+['keydown', 'click', 'touchstart'].forEach(ev => addEventListener(ev, function once() {
+  bgmStarted = true; syncBgm(); removeEventListener(ev, once, true);
+}, true));
+addEventListener('keydown', e => { if (e.key === 'm' || e.key === 'M') { musicOn = !musicOn; syncBgm(); } });
+
 /* ===== Auto fullscreen ===== */
 function goFull() {
   const d = document.documentElement, f = d.requestFullscreen || d.webkitRequestFullscreen || d.msRequestFullscreen;
