@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gibby's Christmas Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e3b28;--bg2:#082a1c;--red:#b3202a;--red2:#8e1620;--cream:#fff6e5;--gold:#f0c24b;--ink:#2a1a14}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:linear-gradient(rgba(6,28,18,.45),rgba(6,28,18,.8)),url(img/bg.jpg) center/cover no-repeat,radial-gradient(circle at 50% 0,var(--bg),var(--bg2));color:var(--cream);font:800 26px/1.35 Nunito,Arial,sans-serif;overflow-x:hidden}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:4}
+main{position:relative;z-index:2;max-width:1780px;margin:0 auto;padding:84px 40px 30px}
+h1,h2{font-family:"Mountains of Christmas",Georgia,serif;margin:0;color:var(--gold)}
+h1{font-size:84px;line-height:1}
+h2{font-size:58px}
+.view{display:none}.view.on{display:block}
+.top{display:flex;align-items:center;gap:24px;margin-bottom:24px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,button:focus{outline:6px solid var(--gold);outline-offset:4px;transform:scale(1.04)}
+.back{background:var(--cream);color:var(--ink);border:0;border-radius:14px;padding:10px 24px}
+.cdw{display:flex;gap:.6em;margin-top:.5em}
+.cdw div{background:var(--cream);color:var(--red);border-radius:.4em;padding:.3em .7em;text-align:center;min-width:2.6em;font-size:2.6em;line-height:1}
+.cdw small{display:block;font-size:.4em;color:var(--ink);margin-top:.2em}
+#scene{position:fixed;left:0;top:0;overflow:hidden;z-index:2}
+.aur{position:absolute;left:0;right:0;top:0;height:36%;background:linear-gradient(100deg,transparent 10%,rgba(80,255,170,.35) 35%,rgba(140,120,255,.3) 62%,transparent 88%)}
+.star{position:absolute;width:.35em;height:.35em;border-radius:50%;background:#fff;opacity:.8}
+.hud{position:absolute;left:41%;width:18%;top:7%;text-align:center;z-index:300}
+.ttl{font:700 2.6em "Mountains of Christmas",Georgia,serif;color:var(--gold);line-height:1;text-shadow:0 3px 10px #000;white-space:nowrap}
+#prompt{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:400;background:rgba(10,30,20,.85);color:var(--cream);font-size:28px;padding:.25em 1em;border-radius:.8em;white-space:nowrap}
+.b{position:absolute;border:0;background:none;padding:0;text-align:center;color:inherit}
+.b:focus,.b:focus-visible{outline:0;transform:none}
+.roof{width:0;height:0;margin:0 auto;border-left:8.5em solid transparent;border-right:8.5em solid transparent;border-bottom:4.5em solid var(--c)}
+.wall{height:8em;background:var(--w);border:.3em solid var(--cream);border-top:0;display:flex;align-items:center;justify-content:center}
+.emo{font-size:4.5em;line-height:1}
+.sign{display:inline-block;margin-top:.5em;background:var(--cream);color:var(--ink);padding:.1em .8em;border-radius:.5em;font-size:1.7em;line-height:1.3}
+.b.near .wall{box-shadow:0 0 0 .5em var(--gold),0 0 3em var(--gold)}
+.b.near .sign{background:var(--gold)}
+.dec{position:absolute;line-height:1;transform:translate(-50%,-100%)}
+.pole{position:absolute;width:2em;height:16em;border-radius:1em;background:repeating-linear-gradient(45deg,#b3202a 0 1em,#fff 1em 2em)}
+.pole i{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.3em;white-space:nowrap;background:#fff;color:var(--red);font-style:normal;padding:.1em .6em;border-radius:.4em;font-size:1.6em}
+#player{position:absolute;font-size:5em;line-height:1;transform:translate(-50%,-100%);transition:left .12s linear,top .12s linear}
+#player span{display:block}
+.lights{position:fixed;left:0;right:0;top:0;height:22px;z-index:6;pointer-events:none;background:radial-gradient(circle at 12px 11px,#ff5a5a 7px,transparent 8px) 0 0/96px 22px repeat-x,radial-gradient(circle at 12px 11px,#ffd54a 7px,transparent 8px) 32px 0/96px 22px repeat-x,radial-gradient(circle at 12px 11px,#5cff9a 7px,transparent 8px) 64px 0/96px 22px repeat-x;animation:tw 2.4s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.6}to{opacity:1}}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.logo{font:700 64px "Mountains of Christmas",Georgia,serif;color:var(--gold);text-shadow:0 3px 10px #000}
+.clk{font-size:2em;margin-top:.2em;text-shadow:0 2px 8px #000}
+#home .cdw{font-size:.7em;margin:.4em 0 0;justify-content:center}
+.hm{display:grid;grid-template-columns:500px 1fr;gap:40px;margin-top:14px}
+.menu{display:flex;flex-direction:column;gap:10px}
+.mi{background:rgba(8,28,20,.6);border:3px solid rgba(255,246,229,.4);border-radius:18px;padding:9px 24px;text-align:left;font-size:30px;display:flex;gap:16px;align-items:center}
+.mi b{font-size:38px;font-weight:400}
+.mi:focus,.mi:focus-visible{outline:0;background:var(--red);border-color:var(--cream);transform:translateX(12px) scale(1.04);box-shadow:0 0 30px rgba(240,194,75,.7)}
+.prev{border:6px solid var(--cream);border-radius:24px;padding:36px;display:flex;flex-direction:column;justify-content:flex-end;min-height:650px;background:#1f6b44 center/cover;box-shadow:0 0 70px var(--t,rgba(0,0,0,.5))}
+.pe{font-size:150px;line-height:1}
+.prev h3{font:700 78px "Mountains of Christmas",Georgia,serif;margin:0;color:var(--gold);text-shadow:0 3px 12px #000}
+.prev p{font-size:32px;margin:6px 0 0;max-width:760px;text-shadow:0 2px 8px #000}
+.tick{margin-top:22px;overflow:hidden;white-space:nowrap;background:rgba(5,20,14,.85);border-radius:12px;padding:10px 0}
+.tick div{display:inline-block;padding-left:100%;animation:tk 120s linear infinite;font-size:26px}
+@keyframes tk{to{transform:translateX(-100%)}}
+.orn{position:fixed;top:18px;z-index:6;pointer-events:none;width:2px;transform-origin:top center;animation:sw 3s ease-in-out infinite alternate}
+.orn i{display:block;width:2px;background:#e8e2c8}
+.orn b{display:block;width:28px;height:28px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),currentColor 60%);box-shadow:inset -6px -6px 10px rgba(0,0,0,.35),0 0 16px currentColor}
+@keyframes sw{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+#sleigh{position:fixed;top:9%;left:-25%;font-size:64px;white-space:nowrap;z-index:3;pointer-events:none;filter:drop-shadow(0 0 14px #fff9);animation:fly 50s linear infinite 5s}
+@keyframes fly{0%{transform:translate(0,0)}15%{transform:translate(35vw,-34px)}30%{transform:translate(70vw,18px)}60%{transform:translate(150vw,-12px)}100%{transform:translate(150vw,-12px)}}
+.shoot{position:fixed;top:14%;left:8%;width:200px;height:3px;background:linear-gradient(90deg,transparent,#fff);opacity:0;z-index:0;pointer-events:none;animation:sh 13s ease-out infinite}
+@keyframes sh{0%{opacity:0;transform:translate(0,0) rotate(25deg)}2%{opacity:1}9%{opacity:0;transform:translate(700px,330px) rotate(25deg)}100%{opacity:0}}
+#bg path[filter]{animation:au 14s ease-in-out infinite alternate}
+@keyframes au{from{transform:translateX(-90px) scaleY(.9)}to{transform:translateX(90px) scaleY(1.2)}}
+#tint{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 72% 55%,var(--t,transparent),transparent 65%);transition:background 1s}
+.logo{animation:gl 3s ease-in-out infinite alternate}
+@keyframes gl{from{text-shadow:0 3px 10px #000,0 0 10px rgba(240,194,75,.3)}to{text-shadow:0 3px 10px #000,0 0 44px #f0c24b}}
+.prev{position:relative;overflow:hidden}
+.fx{position:absolute;inset:0;pointer-events:none}
+.fx span{position:absolute;bottom:-70px;opacity:0;animation:rise 6s linear infinite}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:.9}100%{transform:translateY(-700px) rotate(40deg);opacity:0}}
+.pe,.prev h3,.prev p{position:relative;z-index:1}
+#gnd{position:absolute;left:0;right:0;top:36%;bottom:0;background:linear-gradient(#f4f9fd,#d6e7f4 25%,#b9d3e8)}
+.b{transition:transform .15s}.b.near svg{filter:drop-shadow(0 0 1.2em #ffd24a);transform:scale(1.05);transform-origin:50% 100%}
+.lt{animation:tw2 1.4s ease-in-out infinite alternate}@keyframes tw2{from{opacity:.3}to{opacity:1}}
+.wn{animation:fl 3s ease-in-out infinite alternate}@keyframes fl{from{opacity:.7}to{opacity:1}}
+.sm{transform-box:fill-box;transform-origin:center;animation:smk 4s ease-out infinite}.s2{animation-delay:2s}
+@keyframes smk{0%{transform:translate(0,0) scale(.6);opacity:.8}100%{transform:translate(14px,-40px) scale(2);opacity:0}}
+.st{animation:stp 1.6s ease-in-out infinite alternate}@keyframes stp{from{filter:drop-shadow(0 0 2px #ffd54a)}to{filter:drop-shadow(0 0 12px #fff3a0)}}
+.wander{animation:wd 7s ease-in-out infinite alternate}@keyframes wd{from{transform:translate(-50%,-100%)}to{transform:translate(calc(-50% + 7em),-100%)}}
+.spin{transform-box:fill-box;transform-origin:center;animation:spn 6s linear infinite}@keyframes spn{to{transform:rotate(360deg)}}
+#pad,#padok{display:none}
+@media (pointer:coarse){#prompt{bottom:178px;font-size:20px}
+#pad{display:grid;position:fixed;left:14px;bottom:14px;grid-template:repeat(3,56px)/repeat(3,56px);gap:6px;z-index:400}
+#pad button,#padok{background:rgba(10,30,20,.7);border:3px solid var(--cream);border-radius:16px;color:var(--cream);font-size:26px;touch-action:none}
+#padok{display:block;position:fixed;right:18px;bottom:40px;width:96px;height:96px;border-radius:50%;z-index:400;background:rgba(179,32,42,.9)}}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.tile{border:6px solid var(--cream);border-radius:22px;padding:30px 10px;font-size:30px;background:var(--red);box-shadow:inset 0 0 0 6px rgba(255,255,255,.12)}
+.tile:nth-child(even){background:#1f6b44}
+.tile span{display:block;font-size:76px;line-height:1.1}
+.row{display:grid;grid-template-columns:420px 1fr;gap:30px}
+.list{display:flex;flex-direction:column;gap:12px}
+.item{background:var(--red);border:4px solid var(--cream);border-radius:14px;padding:12px 18px;text-align:left}
+.panel{background:var(--cream);color:var(--ink);border-radius:20px;padding:28px 34px;min-height:380px}
+.panel h3{font-family:"Mountains of Christmas",Georgia,serif;font-size:46px;margin:0 0 8px;color:var(--red)}
+.panel p{margin:8px 0;font-weight:600}
+.frame{width:100%;aspect-ratio:16/9;border:6px solid var(--cream);border-radius:18px;background:#000}
+.note{background:var(--cream);color:var(--ink);padding:20px;border-radius:14px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.opt{background:var(--red);border:4px solid var(--cream);border-radius:14px;padding:16px}
+.opt.ok{background:#1f8f4f}.opt.bad{background:#555}
+.grid{display:grid;gap:14px}
+.card{height:130px;font-size:64px;background:var(--red);border:4px solid var(--cream);border-radius:14px}
+.card.up{background:var(--cream)}
+.sq{height:150px;font-size:80px;background:#0b2f20;border:4px solid var(--cream);border-radius:14px}
+.big{font-size:34px}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<div class="lights"></div>
+<div id="sleigh">🦌🦌🦌🛷</div><div class="shoot"></div><div class="shoot" style="top:6%;left:48%;animation-delay:6s"></div>
+<svg id="bg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" style="position:fixed;left:0;top:0;width:100%;height:100%;z-index:0">
+<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050d24"/><stop offset=".55" stop-color="#17386a"/><stop offset="1" stop-color="#4a7fa8"/></linearGradient>
+<linearGradient id="au" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3cff9a" stop-opacity="0"/><stop offset=".4" stop-color="#3cff9a" stop-opacity=".55"/><stop offset=".7" stop-color="#9a7cff" stop-opacity=".45"/><stop offset="1" stop-color="#9a7cff" stop-opacity="0"/></linearGradient>
+<radialGradient id="mn"><stop offset="0" stop-color="#fffbe8"/><stop offset=".35" stop-color="#fffbe8"/><stop offset="1" stop-color="#fffbe8" stop-opacity="0"/></radialGradient>
+<filter id="bl"><feGaussianBlur stdDeviation="28"/></filter></defs>
+<rect width="1920" height="1080" fill="url(#sk)"/><g id="stars"></g>
+<path d="M0 330 Q480 120 960 260 T1920 200 L1920 420 Q1400 330 960 430 T0 470Z" fill="url(#au)" filter="url(#bl)"/>
+<circle cx="1620" cy="190" r="150" fill="url(#mn)" opacity=".5"/><circle cx="1620" cy="190" r="62" fill="#fffbe8"/>
+<path d="M0 760 Q300 680 600 740 T1200 730 T1920 720 V1080 H0Z" fill="#8fb4d3"/><g id="t1"></g>
+<path d="M0 850 Q400 770 900 840 T1920 810 V1080 H0Z" fill="#d6e8f5"/><g id="t2"></g>
+<path d="M0 960 Q500 905 1000 965 T1920 935 V1080 H0Z" fill="#c9deef"/></svg><div id="tint"></div>
+<main>
+
+<section class="view on" id="home">
+<div id="scene"><div id="gnd"></div>
+    
+    <div class="hud"><div class="ttl">🎄 North Pole</div><div class="cdw"></div><div class="clk" id="clk"></div></div>
+    <div id="player"><span>🧝</span></div>
+  </div>
+<div id="prompt">Use the arrow keys to walk around</div>
+<div id="pad"><button data-k="ArrowUp" style="grid-area:1/2">▲</button><button data-k="ArrowLeft" style="grid-area:2/1">◀</button><button data-k="ArrowRight" style="grid-area:2/3">▶</button><button data-k="ArrowDown" style="grid-area:3/2">▼</button></div><button id="padok">OK</button>
+</section>
+
+<section class="view" id="yule">
+  <div class="top"><button class="back" data-go="home">⬅ Home</button><h2>Yule Log</h2></div>
+  <div id="yuleBox"></div>
+</section>
+
+<section class="view" id="music">
+  <div class="top"><button class="back" data-go="home">⬅ Home</button><h2>Christmas Music</h2></div>
+  <div id="musicBox"></div>
+</section>
+
+<section class="view" id="movies">
+  <div class="top"><button class="back" data-go="home">⬅ Home</button><h2>Movie Night</h2></div>
+  <div class="row"><div class="list" id="movieList"></div><div class="panel" id="moviePanel"></div></div>
+</section>
+
+<section class="view" id="recipes">
+  <div class="top"><button class="back" data-go="home">⬅ Home</button><h2>Holiday Recipes</h2></div>
+  <div class="row"><div class="list" id="recipeList"></div><div class="panel" id="recipePanel"></div></div>
+</section>
+
+<section class="view" id="games">
+  <div class="top"><button class="back" id="gback">⬅ Back</button><h2>Games</h2></div>
+  <div class="tiles" id="gmenu">
+    <button class="tile" data-game="trivia"><span>🧠</span>Trivia</button>
+    <button class="tile" data-game="scramble"><span>🔤</span>Word Scramble</button>
+    <button class="tile" data-game="memory"><span>🃏</span>Memory Match</button>
+    <button class="tile" data-game="color"><span>🎨</span>Color the Tree</button>
+    <button class="tile" data-game="catch"><span>🎁</span>Catch the Gifts</button>
+  </div>
+  <div id="stage" style="display:none"></div>
+</section>
+
+<section class="view" id="quiz">
+  <div class="top"><button class="back" data-go="home">⬅ Home</button><h2>Naughty or Nice?</h2></div>
+  <div id="quizBox"></div>
+</section>
+
+<section class="view" id="facts">
+  <div class="top"><button class="back" data-go="home">⬅ Home</button><h2>Fun Facts</h2></div>
+  <div class="panel"><p class="big" id="factText"></p></div>
+  <p><button class="tile" id="nextFact" style="padding:16px 40px">Next fact ➜</button></p>
+</section>
+
+</main>
+
+<script>
+/* ===== CONFIG: paste YouTube IDs here (the part after v= or list=) ===== */
+const CONFIG = {
+  yuleVideoId: "",      // e.g. a fireplace / yule log video ID
+  musicPlaylistId: ""   // a Christmas music playlist ID (starts with PL...)
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* ===== Views / navigation ===== */
+let current = 'home';
+function show(id) {
+  if (id === 'snowtoggle') { snowOn = !snowOn; return; }
+  $$('.view').forEach(v => v.classList.toggle('on', v.id === id));
+  current = id;
+  if (id === 'yule') embed('#yuleBox', CONFIG.yuleVideoId && `https://www.youtube.com/embed/${CONFIG.yuleVideoId}?rel=0&autoplay=0`, 'a Yule Log video ID (yuleVideoId)');
+  if (id === 'music') embed('#musicBox', CONFIG.musicPlaylistId && `https://www.youtube.com/embed/videoseries?list=${CONFIG.musicPlaylistId}&rel=0`, 'a playlist ID (musicPlaylistId)');
+  if (id === 'quiz') startQuiz();
+  if (id === 'facts') nextFact();
+  if (id !== 'yule' && id !== 'music') { $('#yuleBox').innerHTML = ''; $('#musicBox').innerHTML = ''; }
+  if (id !== 'games') closeStage(true);
+  window.scrollTo(0, 0);
+  if (id === 'home') { document.activeElement && document.activeElement.blur(); sizeScene(); updNear(); return; }
+  const pick = document.querySelector('.view.on .mi, .view.on .item, .view.on .tile, .view.on button');
+  pick && pick.focus();
+}
+function embed(sel, url, what) {
+  $(sel).innerHTML = url
+    ? `<iframe class="frame" src="${url}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe><p>Press OK on the video to play. Needs internet.</p>`
+    : `<div class="note">Add ${what} to CONFIG at the top of index.html.</div>`;
+}
+function back() {
+  if (current === 'games' && $('#stage').style.display !== 'none') { closeStage(); return; }
+  show('home');
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.go) show(b.dataset.go);
+  else if (b.dataset.game) startGame(b.dataset.game);
+  else if (b.id === 'gback') back();
+  else if (b.id === 'nextFact') nextFact();
+});
+document.addEventListener('keydown', e => {
+  if (current === 'home') {
+    if (e.key.startsWith('Arrow')) { e.preventDefault(); move(e.key); return; }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nearB && show(nearB.dataset.go); return; }
+  }
+  if (e.key === 'Escape' || e.key === 'Backspace' || e.keyCode === 10009 || e.keyCode === 461) { e.preventDefault(); back(); return; }
+  if (!e.key.startsWith('Arrow')) return;
+  if (document.activeElement && document.activeElement.tagName === 'IFRAME') return;
+  e.preventDefault();
+  const els = $$('.view.on button').filter(b => b.offsetParent);
+  const cur = document.activeElement;
+  if (!els.includes(cur)) { els[0] && els[0].focus(); return; }
+  const r = cur.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  let best, bs = 1e9;
+  els.forEach(b => {
+    if (b === cur) return;
+    const q = b.getBoundingClientRect(), x = q.left + q.width / 2 - cx, y = q.top + q.height / 2 - cy;
+    const [m, o] = e.key === 'ArrowRight' ? [x, Math.abs(y)] : e.key === 'ArrowLeft' ? [-x, Math.abs(y)] : e.key === 'ArrowDown' ? [y, Math.abs(x)] : [-y, Math.abs(x)];
+    if (m <= 4) return;
+    const s = m + o * 2; if (s < bs) { bs = s; best = b; }
+  });
+  best && best.focus();
+});
+
+/* ===== Countdown ===== */
+const setCd = h => $$('.cdw').forEach(e => e.innerHTML = h);
+function tick() {
+  const n = new Date();
+  $('#clk').textContent = n.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); let t = new Date(n.getFullYear(), 11, 25);
+  if (n.getMonth() === 11 && n.getDate() === 25) { setCd('<div style="background:none;color:var(--gold)">🎄 It’s Christmas Day! 🎅</div>'); return; }
+  if (n > t) t = new Date(n.getFullYear() + 1, 11, 25);
+  let d = Math.floor((t - n) / 1000);
+  const days = Math.floor(d / 86400), h = Math.floor(d % 86400 / 3600), m = Math.floor(d % 3600 / 60), s = d % 60;
+  setCd([[days, 'days'], [h, 'hours'], [m, 'mins'], [s, 'secs']].map(x => `<div>${x[0]}<small>${x[1]}</small></div>`).join(''));
+}
+tick(); setInterval(tick, 1000);
+
+/* ===== Snow ===== */
+let snowOn = true;
+const cv = $('#snow'), cx = cv.getContext('2d');
+let flakes = [];
+function sizeSnow() { cv.width = innerWidth; cv.height = innerHeight; flakes = Array.from({ length: 110 }, () => ({ x: Math.random() * cv.width, y: Math.random() * cv.height, r: 2 + Math.random() * 4, v: 0.6 + Math.random() * 1.6, p: Math.random() * 6 })); }
+sizeSnow(); addEventListener('resize', sizeSnow);
+(function loop() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  if (snowOn) {
+    cx.fillStyle = 'rgba(255,255,255,.85)';
+    flakes.forEach(f => { f.y += f.v; f.p += .02; f.x += Math.sin(f.p); if (f.y > cv.height) { f.y = -5; f.x = Math.random() * cv.width; } cx.beginPath(); cx.arc(f.x, f.y, f.r, 0, 7); cx.fill(); });
+  }
+  requestAnimationFrame(loop);
+})();
+
+/* ===== List + detail (movies, recipes) ===== */
+function listDetail(listSel, panelSel, data, render) {
+  $(listSel).innerHTML = data.map((d, i) => `<button class="item" data-i="${i}">${d[0]}</button>`).join('');
+  const upd = i => $(panelSel).innerHTML = render(data[i]);
+  $$(listSel + ' .item').forEach(b => b.addEventListener('focus', () => upd(+b.dataset.i)));
+  upd(0);
+}
+listDetail('#movieList', '#moviePanel', [
+  ['🎄 Elf (2003)', 'Buddy the human raised at the North Pole heads to New York to find his dad. Pure joy.'],
+  ['🏠 Home Alone (1990)', 'Kevin McCallister defends the house with paint cans and very creative traps.'],
+  ['🎁 The Grinch (2000 / 2018)', 'A grump tries to steal Christmas and learns what it is really about.'],
+  ['🚂 The Polar Express (2004)', 'A magical night train carries kids to the North Pole.'],
+  ['🔔 It’s a Wonderful Life (1946)', 'George Bailey gets to see what the world would be like without him.'],
+  ['⛄ Frosty the Snowman (1969)', 'A magic hat brings a snowman to life. A short classic for little ones.'],
+  ['🦌 Rudolph (1964)', 'The red-nosed reindeer saves Christmas with his glowing nose.'],
+  ['🎅 The Santa Clause (1994)', 'Scott Calvin takes over as Santa and the suit does not come off.'],
+  ['🕯️ A Christmas Story (1983)', 'Ralphie just wants a Red Ryder BB gun. “You’ll shoot your eye out!”'],
+  ['🎤 Charlie Brown Christmas (1965)', 'Charlie Brown finds the true meaning of Christmas with a tiny tree.'],
+  ['🧝 Arthur Christmas (2011)', 'Santa’s son races to deliver one forgotten present.'],
+  ['🛷 Klaus (2019)', 'A postman and a toymaker invent the legend of Santa. Beautiful animation.']
+], d => `<h3>${d[0]}</h3><p>${d[1]}</p><p>Press Home, open Netflix, Disney+ or your DVDs to watch.</p>`);
+
+listDetail('#recipeList', '#recipePanel', [
+  ['🍪 Sugar Cookies', '2¾ cups flour, 1 tsp baking powder, 1 cup butter, 1½ cups sugar, 1 egg, 2 tsp vanilla.', 'Cream butter and sugar, add egg and vanilla, mix in dry ingredients. Chill 1 hour, roll out, cut shapes. Bake 8–10 min at 350°F (175°C). Cool, then decorate.'],
+  ['🫖 Hot Cocoa', '2 cups milk, 3 tbsp cocoa powder, 3 tbsp sugar, ½ tsp vanilla, pinch of salt.', 'Heat milk gently. Whisk in cocoa, sugar and salt until smooth. Add vanilla. Top with marshmallows or whipped cream.'],
+  ['🫚 Gingerbread', '3 cups flour, 1 tbsp ginger, 1 tsp cinnamon, ½ cup butter, ¾ cup brown sugar, ½ cup molasses, 1 egg.', 'Cream butter and sugar, beat in molasses and egg, mix in dry ingredients. Chill 2 hours. Roll, cut, bake 10 min at 350°F (175°C).'],
+  ['🍖 Glazed Ham', '1 ham (7–9 lb), ¾ cup brown sugar, ¼ cup honey, 2 tbsp mustard.', 'Bake ham covered at 325°F (165°C), about 15 min per lb. Mix glaze, brush on for the last 30 min uncovered.'],
+  ['🥔 Mashed Potatoes', '3 lb potatoes, ½ cup warm milk, 4 tbsp butter, salt.', 'Boil peeled chunks 15–20 min until soft. Drain, mash with butter and warm milk. Salt to taste.'],
+  ['🥛 Eggnog', '4 eggs, ½ cup sugar, 2 cups milk, 1 cup cream, nutmeg.', 'Whisk yolks and sugar. Heat milk and cream, then slowly whisk into yolks. Cook gently to 160°F (70°C), chill, top with nutmeg. Adults handle the hot part!'],
+  ['🍬 Peppermint Bark', '12 oz dark chocolate, 12 oz white chocolate, ½ tsp peppermint extract, crushed candy canes.', 'Melt dark chocolate and spread on a lined tray. Chill. Melt white chocolate with extract, spread on top, sprinkle candy canes. Chill, then break up.'],
+  ['🥧 Pumpkin Pie', '1 can pumpkin (15 oz), 1 can evaporated milk, 2 eggs, ¾ cup sugar, pumpkin spice, 1 pie crust.', 'Mix filling, pour into crust. Bake 15 min at 425°F, then 40–50 min at 350°F until set.']
+], d => `<h3>${d[0]}</h3><p><b>You need:</b> ${d[1]}</p><p><b>Steps:</b> ${d[2]}</p>`);
+
+/* ===== Games ===== */
+let timer = null;
+function closeStage(silent) {
+  clearInterval(timer); timer = null;
+  $('#stage').style.display = 'none'; $('#stage').innerHTML = '';
+  $('#gmenu').style.display = '';
+  if (!silent) { const t = $('#gmenu .tile'); t && t.focus(); }
+}
+function startGame(g) {
+  $('#gmenu').style.display = 'none'; $('#stage').style.display = '';
+  ({ trivia, scramble, memory, color, catchGame })[g]();
+  const b = $('#stage button'); b && b.focus();
+}
+function quizLoop(items, title, render, onEnd) {
+  let i = 0, score = 0;
+  const go = () => {
+    if (i >= items.length) { $('#stage').innerHTML = `<div class="panel"><h3>${onEnd(score, items.length)}</h3></div><p><button class="tile" id="again" style="padding:16px 40px">Play again</button></p>`; $('#again').onclick = () => startGame(title); $('#again').focus(); return; }
+    const [html, opts, correct] = render(items[i]);
+    $('#stage').innerHTML = `<div class="panel"><p class="big">${html}</p></div><div class="opts">${opts.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join('')}</div>`;
+    $$('#stage .opt').forEach(b => b.onclick = () => {
+      const ok = +b.dataset.k === correct; if (ok) score++;
+      $$('#stage .opt').forEach(x => { x.disabled = true; if (+x.dataset.k === correct) x.classList.add('ok'); });
+      if (!ok) b.classList.add('bad');
+      setTimeout(() => { i++; go(); }, 900);
+    });
+    $('#stage .opt').focus();
+  };
+  go();
+}
+function trivia() {
+  const Q = [
+    ['Which reindeer has a red nose?', ['Dasher', 'Rudolph', 'Comet', 'Blitzen'], 1],
+    ['What do kids leave out for Santa?', ['Pizza', 'Cookies and milk', 'Soup', 'Salad'], 1],
+    ['Where does Santa live?', ['South Pole', 'Hawaii', 'North Pole', 'Paris'], 2],
+    ['How many gifts in total in “12 Days of Christmas”?', ['78', '12', '100', '364'], 0],
+    ['Which country started the Christmas tree tradition?', ['Germany', 'Brazil', 'Japan', 'Egypt'], 0],
+    ['What plant do people kiss under at Christmas?', ['Holly', 'Mistletoe', 'Ivy', 'Fern'], 1],
+    ['What color are Santa’s boots?', ['Red', 'Green', 'Black', 'Gold'], 2],
+    ['Who stole Christmas?', ['The Grinch', 'Scrooge', 'Jack Frost', 'The Elf'], 0]
+  ];
+  quizLoop(shuffle(Q).slice(0, 6), 'trivia', q => [q[0], q[1], q[2]], (s, n) => `You got ${s} of ${n}! ${s >= n - 1 ? '🏆 Santa’s helper!' : '🎄 Good try!'}`);
+}
+function scramble() {
+  const W = ['REINDEER', 'SNOWMAN', 'STOCKING', 'TINSEL', 'MISTLETOE', 'CANDYCANE', 'SLEIGH', 'PRESENTS', 'SANTA', 'ORNAMENT'];
+  const sc = w => { let s; do s = shuffle(w.split('')).join(''); while (s === w); return s; };
+  quizLoop(shuffle(W).slice(0, 6), 'scramble', w => {
+    const opts = shuffle([w, ...shuffle(W.filter(x => x !== w)).slice(0, 3)]);
+    return [`Unscramble: <b style="color:var(--red)">${sc(w)}</b>`, opts, opts.indexOf(w)];
+  }, (s, n) => `${s} of ${n} unscrambled! ${s >= n - 1 ? '🏆' : '🎄'}`);
+}
+function memory() {
+  const E = ['🎅', '🎄', '⛄', '🎁', '🔔', '🦌'];
+  const deck = shuffle([...E, ...E]); let open = [], lock = false, found = 0, moves = 0;
+  $('#stage').innerHTML = `<p id="mv" class="big">Moves: 0</p><div class="grid" style="grid-template-columns:repeat(4,1fr)">${deck.map((e, i) => `<button class="card" data-i="${i}">❓</button>`).join('')}</div>`;
+  $$('#stage .card').forEach(b => b.onclick = () => {
+    if (lock || b.classList.contains('up')) return;
+    b.classList.add('up'); b.textContent = deck[b.dataset.i]; open.push(b);
+    if (open.length === 2) {
+      moves++; $('#mv').textContent = 'Moves: ' + moves;
+      const [a, c] = open;
+      if (a.textContent === c.textContent) { found++; open = []; if (found === 6) $('#mv').textContent = `🎉 You won in ${moves} moves! Press Back to play more.`; }
+      else { lock = true; setTimeout(() => { open.forEach(x => { x.classList.remove('up'); x.textContent = '❓'; }); open = []; lock = false; }, 800); }
+    }
+  });
+}
+function color() {
+  const C = ['#1f8f4f', '#b3202a', '#f0c24b', '#3b82c4', '#fff6e5', '#8a4fbf', '#e88a2b'];
+  const parts = { top: 0, mid: 0, bot: 0, trunk: 5, star: 2, balls: 1 };
+  const names = { top: 'Top', mid: 'Middle', bot: 'Bottom', trunk: 'Trunk', star: 'Star', balls: 'Ornaments' };
+  const fills = { top: '#1f8f4f', mid: '#1f8f4f', bot: '#1f8f4f', trunk: '#8a5a2b', star: '#f0c24b', balls: '#b3202a' };
+  const idx = { top: 0, mid: 0, bot: 0, trunk: 99, star: 2, balls: 1 };
+  $('#stage').innerHTML = `<div style="display:flex;gap:40px;align-items:center"><svg viewBox="0 0 300 380" width="420" style="background:#0b2f20;border-radius:18px">
+    <polygon id="c_top" points="150,40 100,120 200,120" fill="${fills.top}"/><polygon id="c_mid" points="150,90 80,190 220,190" fill="${fills.mid}"/>
+    <polygon id="c_bot" points="150,150 60,270 240,270" fill="${fills.bot}"/><rect id="c_trunk" x="130" y="270" width="40" height="60" fill="${fills.trunk}"/>
+    <polygon id="c_star" points="150,10 158,32 182,32 163,46 170,68 150,54 130,68 137,46 118,32 142,32" fill="${fills.star}"/>
+    <g id="c_balls" fill="${fills.balls}"><circle cx="135" cy="140" r="9"/><circle cx="170" cy="175" r="9"/><circle cx="105" cy="230" r="9"/><circle cx="195" cy="235" r="9"/></g></svg>
+    <div class="grid" style="grid-template-columns:1fr 1fr">${Object.keys(names).map(k => `<button class="opt" data-p="${k}">${names[k]}</button>`).join('')}</div></div>`;
+  $$('#stage [data-p]').forEach(b => b.onclick = () => {
+    const k = b.dataset.p; idx[k] = (idx[k] + 1) % C.length;
+    const el = $('#c_' + k); el.setAttribute('fill', C[idx[k]]);
+    if (k === 'balls') el.querySelectorAll('circle').forEach(c => c.setAttribute('fill', C[idx[k]]));
+  });
+}
+function catchGame() {
+  let score = 0, left = 20, on = -1;
+  $('#stage').innerHTML = `<p class="big" id="hud">Score: 0 | Time: 20</p><div class="grid" style="grid-template-columns:repeat(3,1fr);max-width:700px">${Array.from({ length: 9 }, (_, i) => `<button class="sq" data-i="${i}"></button>`).join('')}</div>`;
+  const sq = $$('#stage .sq');
+  sq.forEach(b => b.onclick = () => { if (+b.dataset.i === on) { score++; on = -1; b.textContent = ''; hud(); } });
+  const hud = () => $('#hud').textContent = `Score: ${score} | Time: ${left}`;
+  let n = 0;
+  timer = setInterval(() => {
+    n++;
+    if (n % 2 === 0) { left--; }
+    sq.forEach(b => b.textContent = '');
+    on = Math.random() * 9 | 0; sq[on].textContent = '🎁';
+    hud();
+    if (left <= 0) { clearInterval(timer); sq.forEach(b => b.textContent = ''); $('#hud').textContent = `🎉 Final score: ${score}! Press Back to play more.`; }
+  }, 600);
+}
+
+/* ===== Naughty or Nice quiz ===== */
+const QQ = [
+  ['Someone leaves the last cookie. You…', [['Split it with a friend', 2], ['Save it for later', 1], ['Eat it before anyone sees', 0]]],
+  ['Your sibling’s toy breaks. You…', [['Help fix it', 2], ['Say “not me”', 1], ['Blame the dog', 0]]],
+  ['Bedtime is 8:00. You…', [['Go right to bed', 2], ['Ask for five more minutes', 1], ['Hide under the couch', 0]]],
+  ['Veggies at dinner. You…', [['Eat them all', 2], ['Eat just the carrots', 1], ['Feed them to the dog', 0]]],
+  ['You get socks as a present. You…', [['Say “Thank you!”', 2], ['Say “Oh… socks.”', 1], ['Throw them at Dad', 0]]],
+  ['Grandma needs help carrying bags. You…', [['Grab the heaviest one', 2], ['Hold the door', 1], ['Pretend you didn’t hear', 0]]],
+  ['You see a present with your name on it early. You…', [['Leave it alone', 2], ['Give it a little shake', 1], ['Unwrap one corner', 0]]],
+  ['Someone is sad at the party. You…', [['Sit with them and cheer them up', 2], ['Offer a candy cane', 1], ['Tell a joke at their expense', 0]]]
+];
+function startQuiz() {
+  let i = 0, pts = 0;
+  const go = () => {
+    if (i >= QQ.length) {
+      const r = pts >= 13 ? ['😇 NICE LIST!', 'Santa is proud. Extra cookies for you!'] : pts >= 8 ? ['🙂 Nice-ish', 'Santa has you on probation. Be good until the 25th!'] : ['😈 NAUGHTY!', 'A big lump of coal is on the way… unless you clean up your act!'];
+      $('#quizBox').innerHTML = `<div class="panel"><h3>${r[0]}</h3><p class="big">${r[1]}</p><p>Score: ${pts} / ${QQ.length * 2}</p></div><p><button class="tile" id="qa" style="padding:16px 40px">Take it again</button></p>`;
+      $('#qa').onclick = startQuiz; $('#qa').focus(); return;
+    }
+    const q = QQ[i];
+    $('#quizBox').innerHTML = `<p>Question ${i + 1} of ${QQ.length}</p><div class="panel"><p class="big">${q[0]}</p></div><div class="opts" style="grid-template-columns:1fr">${shuffle(q[1]).map(o => `<button class="opt" data-s="${o[1]}">${o[0]}</button>`).join('')}</div>`;
+    $$('#quizBox .opt').forEach(b => b.onclick = () => { pts += +b.dataset.s; i++; go(); });
+    $('#quizBox .opt').focus();
+  };
+  go();
+}
+
+/* ===== Fun facts ===== */
+const FACTS = [
+  'Candy canes were first made as straight white sticks. The bent shape came later.',
+  'Rudolph first appeared in a 1939 story written for a department store.',
+  'Tinsel was once made of real silver.',
+  'The first artificial Christmas trees were made in Germany from goose feathers.',
+  'In Japan, a popular Christmas dinner is fried chicken.',
+  'Over 30 million real Christmas trees are sold in North America each year.',
+  'Jingle Bells was written for Thanksgiving, not Christmas.',
+  'In Iceland, 13 Yule Lads visit kids on the 13 nights before Christmas.',
+  'The tradition of hanging stockings comes from the story of St. Nicholas.',
+  'Poinsettias are named after Joel Poinsett, who brought them to the US from Mexico.'
+];
+let fi = -1;
+function nextFact() { fi = (fi + 1 + (Math.random() * 3 | 0)) % FACTS.length; $('#factText').textContent = '⭐ ' + FACTS[fi]; }
+
+function treeSVG() {
+  const orn = [[58, 64], [84, 66], [48, 104], [92, 106], [70, 98], [30, 160], [110, 162], [70, 150], [52, 174], [90, 176]].map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="${['#e63946', '#f0c24b', '#4aa3ff', '#c77dff'][i % 4]}"/>`).join('');
+  const lts = Array.from({ length: 16 }, (_, i) => { const t = i / 15, y = 30 + t * 150, x = 70 + Math.sin(i * 1.7) * (12 + t * 48); return `<circle class="lt" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="3.4" fill="${LC[i % 4]}" style="animation-delay:${(i * .17).toFixed(2)}s"/>`; }).join('');
+  return `<svg viewBox="0 0 140 206" width="100%" style="display:block;overflow:visible"><polygon points="70,22 42,76 98,76" fill="#1c7a46"/><polygon points="70,52 30,122 110,122" fill="#17653b"/><polygon points="70,94 14,184 126,184" fill="#12522f"/><g stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"><path d="M42 76Q56 84 70 76Q84 84 98 76"/><path d="M30 122Q50 132 70 122Q90 132 110 122"/><path d="M14 184Q42 196 70 184Q98 196 126 184"/></g><rect x="62" y="184" width="16" height="16" fill="#5a2d1c"/>${orn}${lts}<polygon class="st" points="70,0 75,14 90,14 78,23 83,38 70,29 57,38 62,23 50,14 65,14" fill="#ffd54a"/><rect x="14" y="186" width="30" height="22" fill="#e63946"/><path d="M29 186V208M14 197H44" stroke="#fff" stroke-width="3"/><rect x="98" y="190" width="26" height="18" fill="#2f7be0"/><path d="M111 190V208M98 199H124" stroke="#fff" stroke-width="3"/></svg>`;
+}
+/* ===== North Pole village (home) ===== */
+const sc = $('#scene'), pl = $('#player'), pr = $('#prompt');
+const P = { x: 50, y: 88 }; let nearB = null; const B = [];
+const LC = ['#ff4d4d', '#ffd54a', '#5cff9a', '#6fb7ff'];
+const F = 'font-family="Nunito,Arial,sans-serif"';
+const W = i => `<svg viewBox="0 0 200 220" width="100%" style="display:block;overflow:visible">${i}<ellipse cx="100" cy="203" rx="98" ry="9" fill="#fff"/></svg>`;
+const sg = (n, d, x, y, w, h, ns = 19) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="#fff6e5" stroke="#6b3a1f" stroke-width="3"/><text x="${x + w / 2}" y="${y + h * .5}" text-anchor="middle" font-size="${ns}" font-weight="800" fill="#2a1a14" ${F}>${n}</text><text x="${x + w / 2}" y="${y + h * .86}" text-anchor="middle" font-size="11" font-weight="700" fill="#b3202a" ${F}>${d}</text>`;
+const L = (x1, x2, y, n) => Array.from({ length: n }, (_, i) => `<circle class="lt" cx="${(x1 + (x2 - x1) * i / (n - 1)).toFixed(0)}" cy="${y + (i % 2 ? 3 : 0)}" r="3.4" fill="${LC[i % 4]}" style="animation-delay:${(i * .23).toFixed(2)}s"/>`).join('');
+const SM = (x, y) => `<circle class="sm" cx="${x}" cy="${y}" r="6" fill="#fff" opacity=".7"/><circle class="sm s2" cx="${x + 3}" cy="${y}" r="5" fill="#fff" opacity=".6"/>`;
+const wreath = (x, y) => `<circle cx="${x}" cy="${y}" r="8" fill="none" stroke="#1f8f4f" stroke-width="4"/><circle cx="${x - 4}" cy="${y - 3}" r="2" fill="#e63946"/><circle cx="${x + 4}" cy="${y + 3}" r="2" fill="#e63946"/>`;
+const log = (x, y) => `<circle cx="${x}" cy="${y}" r="7" fill="#a0693a" stroke="#5e3a1e" stroke-width="2"/><circle cx="${x}" cy="${y}" r="3" fill="#d9a066"/>`;
+const ART = {
+  yule: (n, d) => W(`${SM(157, 18)}<rect x="146" y="30" width="24" height="52" fill="#8d8d8d" stroke="#5f5f5f" stroke-width="2"/><path d="M146 44H170M146 58H170M158 30V44M152 44V58M164 58V72" stroke="#6a6a6a" stroke-width="2"/><rect x="142" y="24" width="32" height="9" rx="3" fill="#fff"/>
+<polygon points="2,108 100,42 198,108" fill="#7a2a24" stroke="#2a1a14" stroke-width="2"/><path d="M12 100L100 50L188 100Q174 108 158 98Q142 110 126 96Q100 114 76 96Q58 110 42 98Q26 108 12 100Z" fill="#fff"/>
+<rect x="10" y="106" width="180" height="92" fill="#8a5a35"/>${[120, 134, 148, 162, 176, 190].map(y => `<path d="M10 ${y}H190" stroke="#5e3a1e" stroke-width="3"/>`).join('')}<rect x="6" y="104" width="8" height="96" rx="4" fill="#6f4727"/><rect x="186" y="104" width="8" height="96" rx="4" fill="#6f4727"/>
+${L(20, 180, 108, 9)}${sg(n, d, 30, 112, 140, 38)}<rect class="wn" x="22" y="158" width="38" height="30" fill="#ff9a3c" stroke="#fff6e5" stroke-width="3"/><text x="41" y="180" text-anchor="middle" font-size="20">🔥</text>
+<path d="M84 198V170Q84 156 100 156Q116 156 116 170V198Z" fill="#5a2d1c" stroke="#fff6e5" stroke-width="2"/>${wreath(100, 174)}${[0, 1, 2].map(i => log(140 + i * 16, 190)).join('')}${[0, 1].map(i => log(148 + i * 16, 176)).join('')}`),
+  movies: (n, d) => W(`<rect x="14" y="76" width="172" height="122" fill="#3b2a63" stroke="#fff6e5" stroke-width="3"/><rect x="4" y="22" width="192" height="58" rx="8" fill="#1a1030" stroke="#ffd54a" stroke-width="4"/><path d="M4 22Q4 12 14 12H186Q196 12 196 22Z" fill="#fff"/>${L(14, 186, 27, 12)}${L(14, 186, 75, 12)}
+<text x="100" y="56" text-anchor="middle" font-size="26" font-weight="800" fill="#ffd54a" ${F}>${n.toUpperCase()}</text><text x="100" y="69" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" ${F}>${d}</text>
+<rect x="24" y="92" width="44" height="60" fill="#b3202a" stroke="#fff6e5" stroke-width="3"/><text x="46" y="130" text-anchor="middle" font-size="28">🎅</text><rect x="132" y="92" width="44" height="60" fill="#1f6b44" stroke="#fff6e5" stroke-width="3"/><text x="154" y="130" text-anchor="middle" font-size="28">🎄</text>
+<path d="M72 134H128L134 148H66Z" fill="#b3202a"/><rect x="80" y="148" width="40" height="50" fill="#7a1c2a" stroke="#ffd54a" stroke-width="2"/><path d="M100 148V198" stroke="#ffd54a" stroke-width="2"/><circle cx="95" cy="176" r="2.5" fill="#ffd54a"/><circle cx="105" cy="176" r="2.5" fill="#ffd54a"/><path d="M14 198H186" stroke="#b3202a" stroke-width="6"/>`),
+  facts: (n, d) => W(`<rect x="28" y="104" width="144" height="94" fill="#2f5a9a" stroke="#fff6e5" stroke-width="3"/>${[120, 136, 152, 168, 184].map(y => `<path d="M28 ${y}H172" stroke="#264a80" stroke-width="2"/>`).join('')}
+<path d="M30 104A70 70 0 0 1 170 104Z" fill="#cfd8e8" stroke="#fff6e5" stroke-width="3"/><path d="M52 72A56 56 0 0 1 148 72Q136 78 126 70Q112 82 100 68Q86 82 74 70Q62 78 52 72Z" fill="#fff"/><rect x="94" y="36" width="12" height="40" fill="#1a2a4a"/><rect x="98" y="14" width="10" height="50" transform="rotate(-28 100 70)" fill="#8fa0bf" stroke="#fff6e5" stroke-width="2"/>
+<text class="lt" x="8" y="50" font-size="16">⭐</text><text class="lt" x="168" y="38" font-size="14" style="animation-delay:.5s">✨</text><text class="lt" x="176" y="84" font-size="12" style="animation-delay:.9s">⭐</text>
+${L(36, 164, 102, 8)}${sg(n, d, 38, 110, 124, 38, 17)}<circle class="wn" cx="62" cy="170" r="11" fill="#ffd978" stroke="#fff6e5" stroke-width="3"/><circle class="wn" cx="138" cy="170" r="11" fill="#ffd978" stroke="#fff6e5" stroke-width="3"/><path d="M86 198V174Q86 162 100 162Q114 162 114 174V198Z" fill="#5a2d1c" stroke="#fff6e5" stroke-width="2"/>`),
+  music: (n, d) => W(`<rect x="30" y="112" width="140" height="86" fill="#9a3a4a" stroke="#fff6e5" stroke-width="3"/><polygon points="20,116 100,76 180,116" fill="#1f6b44" stroke="#2a1a14" stroke-width="2"/><path d="M30 110L100 80L170 110Q156 116 142 108Q126 118 112 106Q100 118 86 106Q70 118 58 108Q44 116 30 110Z" fill="#fff"/>
+<rect x="78" y="46" width="44" height="70" fill="#9a3a4a" stroke="#fff6e5" stroke-width="3"/><polygon points="72,48 100,10 128,48" fill="#1f6b44" stroke="#2a1a14" stroke-width="2"/><path d="M80 42L100 18L120 42Q110 48 100 42Q90 48 80 42Z" fill="#fff"/><path d="M100 0V12M94 5H106" stroke="#ffd54a" stroke-width="3"/>
+<path d="M90 92V68Q90 58 100 58Q110 58 110 68V92Z" fill="#1a0a10"/><text x="100" y="88" text-anchor="middle" font-size="18">🔔</text>${L(34, 166, 119, 8)}${sg(n, d, 36, 124, 128, 36, 19)}
+${[42, 138].map(x => `<path class="wn" d="M${x} 192V178Q${x} 168 ${x + 10} 168Q${x + 20} 168 ${x + 20} 178V192Z" fill="#ffd978" stroke="#fff6e5" stroke-width="2"/>`).join('')}<path d="M84 198V176Q84 164 100 164Q116 164 116 176V198Z" fill="#5a2d1c" stroke="#fff6e5" stroke-width="2"/>${wreath(100, 180)}`),
+  recipes: (n, d) => W(`${SM(36, 4)}<rect x="28" y="8" width="16" height="34" fill="#8e4a3a"/><rect x="24" y="4" width="24" height="8" rx="3" fill="#fff"/><path d="M18 66L36 34H164L182 66Z" fill="#b3202a" stroke="#2a1a14" stroke-width="2"/><path d="M26 58L40 38H160L174 58Q160 64 146 56Q130 66 114 54Q100 66 86 54Q70 66 54 56Q40 64 26 58Z" fill="#fff"/>
+<rect x="16" y="62" width="168" height="136" fill="#f0c9a4" stroke="#fff6e5" stroke-width="3"/>${sg(n, d, 28, 66, 144, 38, 20)}${Array.from({ length: 8 }, (_, i) => `<rect x="${16 + i * 21}" y="108" width="21" height="14" fill="${i % 2 ? '#fff' : '#e63946'}"/><circle cx="${26.5 + i * 21}" cy="122" r="10.5" fill="${i % 2 ? '#fff' : '#e63946'}"/>`).join('')}
+<rect class="wn" x="26" y="136" width="74" height="52" rx="4" fill="#ffe9b0" stroke="#8e4a3a" stroke-width="4"/><path d="M26 162H100" stroke="#8e4a3a" stroke-width="3"/><text x="40" y="158" font-size="18">🧁</text><text x="66" y="158" font-size="18">🍰</text><text x="40" y="184" font-size="18">🍪</text><text x="66" y="184" font-size="18">🥐</text>
+<rect x="116" y="136" width="46" height="62" fill="#5a2d1c" stroke="#fff6e5" stroke-width="3"/><rect class="wn" x="124" y="144" width="30" height="26" fill="#ffd978"/><rect x="126" y="178" width="26" height="12" rx="3" fill="#e63946"/><text x="139" y="187" text-anchor="middle" font-size="8" font-weight="800" fill="#fff" ${F}>OPEN</text>`),
+  games: (n, d) => W(`<rect x="150" y="22" width="18" height="34" fill="#6b3524"/>${SM(159, 14)}<rect x="20" y="72" width="160" height="126" fill="#3a8a9a" stroke="#fff6e5" stroke-width="3"/>${[44, 68, 92, 116, 140, 164].map(x => `<path d="M${x} 74V198" stroke="#2a6a78" stroke-width="2"/>`).join('')}
+<polygon points="12,78 56,34 100,78 144,34 188,78" fill="#1f6b44" stroke="#2a1a14" stroke-width="2"/><path d="M26 72L56 42L84 72Q70 78 56 70Q42 78 26 72Z" fill="#fff"/><path d="M116 72L144 42L174 72Q158 78 144 70Q130 78 116 72Z" fill="#fff"/><text class="spin" x="100" y="70" text-anchor="middle" font-size="26">⚙️</text>
+${L(24, 176, 82, 9)}${sg(n, d, 26, 88, 148, 38, 19)}<circle class="wn" cx="48" cy="162" r="20" fill="#ffd978" stroke="#fff6e5" stroke-width="4"/><text x="48" y="170" text-anchor="middle" font-size="22">🧸</text><circle class="wn" cx="152" cy="162" r="20" fill="#ffd978" stroke="#fff6e5" stroke-width="4"/><text x="152" y="170" text-anchor="middle" font-size="22">🚂</text>
+<rect x="80" y="144" width="40" height="54" fill="#b3202a" stroke="#fff6e5" stroke-width="3"/><rect x="97" y="144" width="6" height="54" fill="#ffd54a"/><circle cx="92" cy="140" r="7" fill="#ffd54a"/><circle cx="108" cy="140" r="7" fill="#ffd54a"/>`),
+  quiz: (n, d) => W(`<rect x="20" y="100" width="160" height="98" fill="#efe6cf" stroke="#8a7a5a" stroke-width="3"/><polygon points="12,104 38,82 162,82 188,104" fill="#b3202a" stroke="#2a1a14" stroke-width="2"/><path d="M24 98L44 86H156L176 98Q160 102 146 96Q130 104 114 94Q100 104 86 94Q70 104 54 96Q38 102 24 98Z" fill="#fff"/>
+<rect x="74" y="38" width="52" height="66" fill="#efe6cf" stroke="#8a7a5a" stroke-width="3"/><polygon points="68,40 100,6 132,40" fill="#b3202a" stroke="#2a1a14" stroke-width="2"/><path d="M76 36L100 14L124 36Q112 42 100 36Q88 42 76 36Z" fill="#fff"/><circle cx="100" cy="64" r="17" fill="#fff" stroke="#6b3a1f" stroke-width="3"/><path d="M100 64V52M100 64L109 69" stroke="#2a1a14" stroke-width="2.5" stroke-linecap="round"/>
+${L(24, 176, 105, 9)}${sg(n, d, 26, 110, 148, 36, 18)}<path d="M70 162L100 148L130 162Z" fill="#fff" stroke="#8a7a5a" stroke-width="2"/>${[74, 120].map(x => `<rect x="${x}" y="162" width="6" height="36" fill="#fff" stroke="#c9c1a8"/>${[166, 178, 190].map(y => `<rect x="${x}" y="${y}" width="6" height="5" fill="#e63946"/>`).join('')}`).join('')}
+<rect x="86" y="170" width="28" height="28" fill="#5a2d1c" stroke="#fff6e5" stroke-width="2"/>${[34, 140].map(x => `<rect class="wn" x="${x}" y="158" width="26" height="34" rx="12" fill="#ffd978" stroke="#8a7a5a" stroke-width="3"/>`).join('')}`)
+};
+[
+  ['yule', '🔥', 'Cozy Cabin', 'Yule Log', 3, 5, '#b3202a', '#8a5a35'],
+  ['movies', '🎬', 'Cinema', 'Movies', 21, 5, '#1f6b44', '#4a3a7a'],
+  ['facts', '⭐', 'Observatory', 'Fun Facts', 62, 5, '#b3202a', '#2f5a9a'],
+  ['music', '🎶', 'Carol Hall', 'Music', 80, 5, '#1f6b44', '#9a3a4a'],
+  ['recipes', '🍪', 'Bakery', 'Recipes', 4, 47, '#b3202a', '#d9a066'],
+  ['games', '🎮', 'Toy Workshop', 'Games', 26, 47, '#1f6b44', '#3a8a9a'],
+  ['quiz', '😇', 'List Office', 'Naughty or Nice', 62, 47, '#b3202a', '#4a8a4a'],
+  ['snowtoggle', '⛄', 'Snowman', 'Snow on/off', 83, 56, '', '']
+].forEach(([go, emo, label, desc, l, t, rc, wc]) => {
+  const sn = go === 'snowtoggle', w = sn ? 12 : 17;
+  const el = document.createElement('button');
+  el.className = 'b'; el.tabIndex = -1; el.dataset.go = go;
+  el.style.cssText = `left:${l}%;top:${t}%;width:${w}em;z-index:${Math.round(t + (sn ? 23 : 33))}`;
+  el.innerHTML = sn ? `<span style="font-size:9em;line-height:1;display:block">${emo}</span><span class="sign">${label}</span>` : ART[go](label, desc, emo);
+  sc.insertBefore(el, pl);
+  B.push({ el, desc, dx: l + w / 2, dy: t * 0.5625 + (sn ? 11 : 19.5) });
+});
+const dec = (html, x, y, size, cls, delay) => {
+  const d = document.createElement('div'); d.className = cls || 'dec'; if (cls) d.classList.add('dec');
+  d.innerHTML = html; d.style.cssText = `left:${x}%;top:${y}%;font-size:${size}em;z-index:${Math.round(y)};${delay ? 'animation-delay:-' + delay + 's' : ''}`; sc.insertBefore(d, pl); return d;
+};
+for (let x = 1; x < 100; x += 4 + Math.random() * 2) { const d = dec('🌲', x, 37, 4 + Math.random() * 3); d.style.zIndex = 1; }
+const tr = dec(treeSVG(), 44, 80, 1); tr.style.cssText = 'left:44%;top:80%;width:14em;transform:translate(0,-100%);z-index:80';
+[['🎅', 50, 38.5, 6.5], ['🦌', 43.5, 38.5, 4.5], ['🦌', 56.5, 38.5, 4.5], ['🎄', 23.5, 46, 5], ['🎄', 78.5, 45, 5], ['🎁', 44, 86, 3.5], ['🎁', 56, 87, 3], ['🦌', 11, 93, 5], ['🦌', 18, 94, 5], ['🛷', 72, 93, 6], ['🔔', 96, 90, 3]].forEach(a => dec(...a));
+[['🧝', 20, 44, 5, 'wander', 0], ['🧝‍♀️', 62, 44, 5, 'wander', 3], ['🧝', 30, 91, 5, 'wander', 1], ['⛄', 84, 44, 5, 'wander', 5]].forEach(a => { const d = dec(a[0], a[1], a[2], a[3], a[4], a[5]); });
+const pole = document.createElement('div'); pole.className = 'pole'; pole.innerHTML = '<i>NORTH POLE</i>';
+pole.style.cssText = 'left:59.2%;top:50%;z-index:78'; sc.insertBefore(pole, pl);
+let SW = innerWidth;
+function sizeScene() {
+  const vw = innerWidth, vh = innerHeight;
+  const w = vw / vh < 1.2 ? vh * 16 / 9 : Math.min(vw, vh * 16 / 9), h = w * 9 / 16;
+  SW = w; sc.style.width = w + 'px'; sc.style.height = h + 'px'; sc.style.fontSize = w / 100 + 'px'; sc.style.top = (vh - h) / 2 + 'px';
+  cam();
+}
+function cam() {
+  let x = (innerWidth - SW) / 2;
+  if (SW > innerWidth) x = Math.max(innerWidth - SW, Math.min(0, innerWidth / 2 - P.x / 100 * SW));
+  sc.style.transition = 'transform .15s'; sc.style.transform = `translateX(${x}px)`;
+}
+function place() { pl.style.left = P.x + '%'; pl.style.top = P.y + '%'; pl.style.zIndex = Math.round(P.y); cam(); updNear(); }
+function move(k) {
+  const dx = k === 'ArrowRight' ? 2.2 : k === 'ArrowLeft' ? -2.2 : 0, dy = k === 'ArrowDown' ? 3.9 : k === 'ArrowUp' ? -3.9 : 0;
+  P.x = Math.max(3, Math.min(97, P.x + dx)); P.y = Math.max(44, Math.min(90, P.y + dy));
+  if (dx) pl.querySelector('span').style.transform = dx < 0 ? 'scaleX(-1)' : 'none';
+  place();
+}
+function updNear() {
+  let best = null, bd = 10;
+  B.forEach(b => { const d = Math.hypot(P.x - b.dx, P.y * 0.5625 - b.dy); if (d < bd) { bd = d; best = b; } });
+  B.forEach(b => b.el.classList.toggle('near', b === best));
+  nearB = best && best.el;
+  pr.textContent = best ? 'Press OK: ' + best.desc : 'Use the arrow keys to walk around';
+}
+addEventListener('resize', sizeScene);
+let padT = null;
+$$('#pad [data-k]').forEach(b => {
+  b.addEventListener('pointerdown', e => { e.preventDefault(); move(b.dataset.k); clearInterval(padT); padT = setInterval(() => move(b.dataset.k), 110); });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => b.addEventListener(t, () => clearInterval(padT)));
+});
+$('#padok').addEventListener('click', () => nearB && show(nearB.dataset.go));
+sizeScene(); place();
+
+/* ===== Painted night scene ===== */
+(function () {
+  const svg = $('#bg'); let st = '';
+  for (let i = 0; i < 90; i++) st += `<circle cx="${Math.random() * 1920 | 0}" cy="${Math.random() * 560 | 0}" r="${(Math.random() * 1.8 + .6).toFixed(1)}" fill="#fff" opacity="${(Math.random() * .6 + .3).toFixed(2)}"/>`;
+  svg.querySelector('#stars').innerHTML = st;
+  const tree = (x, y, h, c) => { const w = h * .5; return `<rect x="${x - 4}" y="${y - 6}" width="8" height="10" fill="#3a2418"/>` + [[.0, .5, .55], [.22, .72, .8], [.45, 1, 1]].map(t => `<polygon points="${x},${y - h + h * t[0]} ${x - w * t[2] / 2},${y - h + h * t[1]} ${x + w * t[2] / 2},${y - h + h * t[1]}" fill="${c}"/>`).join(''); };
+  let a = '', b = '';
+  for (let x = 20; x < 1920; x += 55 + Math.random() * 40) a += tree(x, 760 + Math.sin(x / 300) * 12, 70 + Math.random() * 50, '#0d3b2a');
+  for (let x = 40; x < 1920; x += 90 + Math.random() * 70) b += tree(x, 850 + Math.sin(x / 400) * 14, 120 + Math.random() * 70, '#124a33');
+  svg.querySelector('#t1').innerHTML = a; svg.querySelector('#t2').innerHTML = b;
+})();
+
+for (let i = 0; i < 16; i++) {
+  const o = document.createElement('div'); o.className = 'orn';
+  o.style.cssText = `left:${3 + i * 6 + Math.random() * 2}%;color:${['#e63946', '#f0c24b', '#3b82c4', '#2fbf71', '#b57cff'][i % 5]};animation-delay:-${(Math.random() * 3).toFixed(1)}s;animation-duration:${(2.4 + Math.random() * 2).toFixed(1)}s`;
+  o.innerHTML = `<i style="height:${14 + Math.random() * 26 | 0}px"></i><b></b>`; document.body.appendChild(o);
+}
+/* ===== Auto fullscreen ===== */
+function goFull() {
+  const d = document.documentElement, f = d.requestFullscreen || d.webkitRequestFullscreen || d.msRequestFullscreen;
+  const on = document.fullscreenElement || document.webkitFullscreenElement;
+  if (f && !on) { try { const p = f.call(d); p && p.catch && p.catch(() => {}); } catch (e) {} }
+}
+goFull(); // works if the browser allows it
+['keydown', 'click', 'touchstart'].forEach(ev => addEventListener(ev, function once() {
+  goFull();
+  if (document.fullscreenElement || document.webkitFullscreenElement) ['keydown', 'click', 'touchstart'].forEach(x => removeEventListener(x, once, true));
+}, true));
+addEventListener('fullscreenchange', () => setTimeout(sizeScene, 100));
+</script>
+</body>
+</html>
